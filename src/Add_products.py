@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
-from connection_instance.Data_base_connection import Postgres_connection # Importa la coneccion a postgres del file Data_base_connection.
+from connection_instance.Data_base_connection import Postgres_connection
 
-add_products_bp = Blueprint('add_products', __name__) # Convierte cada script en un módulo Flask Blueprint, lo que te permitirá incluirlos en la aplicación principal.
+add_products_bp = Blueprint('add_products', __name__)
 
 @add_products_bp.route('/add_products', methods=['POST'])
 def insert_data():
+
     data = request.json
     name = data.get("name")
     sku = data.get("SKU")
@@ -13,8 +14,9 @@ def insert_data():
     quantity = data.get("Quantity")
     price = data.get("Price")
 
+    # Validar los datos
     if not all([name, sku, description, size, quantity is not None, price is not None]):
-        return jsonify({"status": "error", "message": "Data from JSON is missing or incorrect."}), 400
+        return jsonify({"status": "error", "message": "Some required fields are missing or invalid."}), 400
 
     conn = Postgres_connection()
     if conn is None:
@@ -22,10 +24,11 @@ def insert_data():
 
     try:
         cur = conn.cursor()
-        insert_sql = '''
-        INSERT INTO {} (SKU, Description, Size, Quantity, Price)
+        # Asume que 'name' es el nombre de la tabla;
+        insert_sql = f'''
+        INSERT INTO {name} (SKU, Description, Size, Quantity, Price)
         VALUES (%s, %s, %s, %s, %s)
-        '''.format(name)
+        '''
         insert_data = (sku, description, size, quantity, price)
         cur.execute(insert_sql, insert_data)
         conn.commit()

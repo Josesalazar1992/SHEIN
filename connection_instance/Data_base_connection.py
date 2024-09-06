@@ -14,7 +14,7 @@ def Postgres_connection() -> psycopg2.extensions.connection:
     try:
         # Stablish connection
         conn = psycopg2.connect(
-            database="postgres",
+            database="Clientes",
             user="postgres",
             host="localhost",
             password="Cyberark1",
