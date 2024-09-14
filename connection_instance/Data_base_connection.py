@@ -1,26 +1,22 @@
-# Con el fin de utilizar Python para interactuar con una base de datos PostgreSQL, 
-# tenemos que hacer una conexión. Esto se hace con la función psycopg2 connect(), 
-# que crea una nueva sesión de base de datos y devuelve una nueva instancia de conexión.
-
 import psycopg2
 from psycopg2 import OperationalError
 
-def Postgres_connection() -> psycopg2.extensions.connection:
+def Postgres_connection(db_name = None) -> psycopg2.extensions.connection:
 
-# Establishes a connection to the PostgreSQL database and returns the connection object.
-# If an error occurs, returns None.
-
+    # Establishes a connection to the PostgreSQL database and returns the connection object.
+    # If an error occurs, returns None.
+    
     conn = None
     try:
-        # Stablish connection
+        # Stablish connection using the dynamic db_name
         conn = psycopg2.connect(
-            database="postgres",
+            database=db_name,  # Use the db_name passed from user_creation
             user="postgres",
             host="localhost",
             password="Cyberark1",
             port=5432
         )
-        print("Connection successful.")
+        print(f"Connection to database '{db_name}' successful.")
     except OperationalError as e:
         print(f"Database connection error: {e}")
     return conn

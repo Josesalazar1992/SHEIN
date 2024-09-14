@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from connection_instance.Data_base_connection import Postgres_connection # Importa la conexión a postgres.
+from connection_instance.Data_base_connection import Postgres_connection  # Adjust this import if necessary
 
 user_creation_bp = Blueprint('user_creation', __name__)
 
@@ -19,7 +19,7 @@ def user_creation():
 
     try:
         # Crear una nueva conexión a la base de datos proporcionada
-        conn = Postgres_connection("setiembre_15")  # Conectar a la base de datos especificada
+        conn = Postgres_connection(db_name)  # Pass the db_name here
         if conn:
             try:
                 conn.autocommit = True  # Habilitar autocommit antes de crear el cursor
@@ -51,4 +51,5 @@ def user_creation():
                 conn.close()  # Cerrar la conexión
 
     except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
+        return jsonify({"status": "error,  La orden no exite, revise la fecha ", "message": str(e)}), 500
+

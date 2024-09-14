@@ -18,7 +18,7 @@ def order_creation():
             conn.autocommit = True # Necesario para ejecutar comandos de creación de base de datos
             cur.execute(f"CREATE DATABASE {name};") # Crear la base de datos
 
-            return jsonify({"status": "success", "message": f"Client '{name}' created."}), 200
+            return jsonify({"status": "success", "message": f"Order '{name}' created."}), 200
 
         except Exception as e:
             conn.rollback()

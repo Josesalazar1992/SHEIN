@@ -7,6 +7,7 @@ add_products_bp = Blueprint('add_products', __name__)
 def insert_data():
 
     data = request.json
+    db_name = data.get("db_name")
     name = data.get("name")
     sku = data.get("SKU")
     description = data.get("Description")
@@ -18,7 +19,7 @@ def insert_data():
     if not all([name, sku, description, size, quantity is not None, price is not None]):
         return jsonify({"status": "error", "message": "Some required fields are missing or invalid."}), 400
 
-    conn = Postgres_connection()
+    conn = Postgres_connection(db_name)
     if conn is None:
         return jsonify({"status": "error", "message": "Could not connect to the database."}), 500
 
