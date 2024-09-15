@@ -9,7 +9,7 @@ def order_creation():
     name = data.get("name")
 
     if not name:
-        return jsonify({"status": "error", "message": "Name of the database is required."}), 400
+        return jsonify({"status": "error", "message": "Nombre de la orden no ha sido ingresada."}), 400
 
     conn = Postgres_connection()
     if conn:
@@ -18,7 +18,7 @@ def order_creation():
             conn.autocommit = True # Necesario para ejecutar comandos de creación de base de datos
             cur.execute(f"CREATE DATABASE {name};") # Crear la base de datos
 
-            return jsonify({"status": "success", "message": f"Order '{name}' created."}), 200
+            return jsonify({"status": "success", "message": f"Ordern de compra '{name}' creada."}), 200
 
         except Exception as e:
             conn.rollback()
@@ -28,4 +28,4 @@ def order_creation():
             cur.close() # Cerrar la conexión
             conn.close()
     else:
-        return jsonify({"status": "error", "message": "Unable to connect to database"}), 500
+        return jsonify({"status": "error", "message": "No se pudo conectar a la base de datos"}), 500

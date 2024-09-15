@@ -10,7 +10,7 @@ def delete_order():
 
     # Validar que el nombre de la base de datos sea válido
     if not name or not name.isidentifier():
-        return jsonify({"status": "error", "message": "Invalid or missing database name."}), 400
+        return jsonify({"status": "error", "message": "Nombre de la base de datos no ingresada."}), 400
 
     conn = Postgres_connection()
     if conn:
@@ -25,7 +25,7 @@ def delete_order():
             db_exists = cur.fetchone()[0]  # True si la base de datos existe, False si no
 
             if not db_exists:
-                return jsonify({"status": "error", "message": f"The database '{name}' does not exist."}), 404
+                return jsonify({"status": "error", "message": f"La orden '{name}' no existe."}), 404
 
             # Terminar todas las conexiones activas a la base de datos
             cur.execute("""
@@ -37,7 +37,7 @@ def delete_order():
             # Borrar la base de datos
             cur.execute(f"DROP DATABASE IF EXISTS {name};")
 
-            return jsonify({"status": "success", "message": f"Database '{name}' deleted successfully."}), 200
+            return jsonify({"status": "success", "message": f"Orden '{name}' eliminada satisfactoriamente."}), 200
 
         except Exception as e:
             conn.rollback()  # Revertir en caso de error
@@ -48,4 +48,4 @@ def delete_order():
                 cur.close()  # Cerrar el cursor
             conn.close()  # Cerrar la conexión
     else:
-        return jsonify({"status": "error", "message": "Unable to connect to the database."}), 500
+        return jsonify({"status": "error", "message": "No se ha podido conectar a la base de datos."}), 500
