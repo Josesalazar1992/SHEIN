@@ -11,10 +11,10 @@ def user_creation():
     db_name = data.get("db_name")
 
     if not table_name or not db_name:
-        return jsonify({"status": "error", "message": "Both table name and database name are required."}), 400
+        return jsonify({"status": "error", "message": "Orden y nombre del cliente son requeridos."}), 400
 
     if not table_name.isidentifier() or not db_name.isidentifier():
-        return jsonify({"status": "error", "message": "Invalid table or database name."}), 400
+        return jsonify({"status": "error", "message": "Nombre de la orden incorrecto."}), 400
 
     try:
         conn = Postgres_connection(db_name)
@@ -36,7 +36,7 @@ def user_creation():
                 cur.execute(create_table_sql)
                 conn.commit()
 
-                return jsonify({"status": "success", "message": f"Table '{table_name}' created successfully in database '{db_name}'."}), 200
+                return jsonify({"status": "success", "message": f"Cliente '{table_name}' creado satisfactoriamente en la orden '{db_name}'."}), 200
 
             except Exception as e:
                 conn.rollback()
@@ -48,6 +48,6 @@ def user_creation():
                 conn.close()
 
     except Exception as e:
-        return jsonify({"status": "error", "message": "Database does not exist."}), 500
+        return jsonify({"status": "error", "message": "Base de datos no existe."}), 500
 
 
